@@ -83,7 +83,7 @@ public class UserController {
     //登录状态下获取用户信号
     @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<User> getUserInfo(HttpSession session,HttpServletRequest request) {
+    public ServerResponse<User> getUserInfo(HttpServletRequest request) {
       //User user = (User)session.getAttribute(Const.CURRENT_USER);
         //读取请求来的cookie信息
        String loginToken = CookieUtil.readLoginToken(request);
