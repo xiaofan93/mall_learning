@@ -1,7 +1,6 @@
 package com.mmall.controller.portal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/test/")
+@Slf4j
 public class TestController {
-
-    private  static Logger logger = LoggerFactory.getLogger(TestController.class);
 
     public static void main(String[] args) {
 
@@ -25,8 +23,8 @@ public class TestController {
     @RequestMapping("test.do")
     @ResponseBody
     public String test(String str) {
-        logger.info("testinfo");
-        logger.error("errortest");
+        log.info("testinfo");
+        log.error("errortest");
         return "string"+str;
     }
 }
