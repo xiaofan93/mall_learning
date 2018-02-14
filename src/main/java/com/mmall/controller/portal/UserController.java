@@ -41,24 +41,28 @@ public class UserController {
      */
     @RequestMapping(value = "login.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession sessions, HttpServletResponse httpServletResponse,HttpServletRequest request) {
+    public ServerResponse<User> login(String username, String password, HttpSession sessions, HttpServletResponse httpServletResponse) {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
            // sessions.setAttribute(Const.CURRENT_USER,response.getData());
+            //把cookie信息写入到response中，返回给浏览器
             CookieUtil.writeLoginToken(httpServletResponse,sessions.getId());
-            CookieUtil.readLoginToken(request);
-            CookieUtil.delLoginToken(request,httpServletResponse);
+            //写入redis
             RedisPoolUtil.setEx(sessions.getId(), JsonUtil.obj2String(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
 
     //登出功能
-    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
+    @RequestMapping(value = "logout.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> logout(HttpServletRequest request,HttpServletResponse response) {
        //  session.removeAttribute(Const.CURRENT_USER);
+       String loginToken = CookieUtil.readLoginToken(request);
+        //删除浏览器中的cookie
         CookieUtil.delLoginToken(request,response);
+        //删除redis中的key
+        RedisPoolUtil.del(loginToken);
          return ServerResponse.creatBySuccess();
     }
 
@@ -77,11 +81,16 @@ public class UserController {
     }
 
     //登录状态下获取用户信号
-    @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<User> getUserInfo(HttpSession session) {
-
-      User user = (User)session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse<User> getUserInfo(HttpSession session,HttpServletRequest request) {
+      //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //读取请求来的cookie信息
+       String loginToken = CookieUtil.readLoginToken(request);
+       //在redis中获取对应的值
+      String userJsonStr = RedisPoolUtil.get(loginToken);
+      //反序列化成对象
+      User user = JsonUtil.String2Obj(userJsonStr,User.class);
 
        if (user != null) {
             return ServerResponse.creatBySuccess(user);
