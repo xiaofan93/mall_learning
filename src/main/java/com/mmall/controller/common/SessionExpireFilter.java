@@ -4,7 +4,7 @@ import com.mmall.common.Const;
 import com.mmall.pojo.User;
 import com.mmall.util.CookieUtil;
 import com.mmall.util.JsonUtil;
-import com.mmall.util.RedisPoolUtil;
+import com.mmall.util.RedisSharedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
@@ -29,11 +29,11 @@ public class SessionExpireFilter implements Filter {
 
        if (StringUtils.isNotEmpty(loginToken)) {
            //loginToken不为空  获得对应的值
-           String userJson = RedisPoolUtil.get(loginToken);
+           String userJson = RedisSharedPoolUtil.get(loginToken);
            User user = JsonUtil.String2Obj(userJson,User.class);
            if (user != null) {
                //user不为空 ，重置session的时间，调用expire  session被tomcat默认只有30分钟有效期
-               RedisPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+               RedisSharedPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
            }
        }
        //一个URL被拦截多次，就会形成一个过滤链
