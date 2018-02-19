@@ -36,19 +36,19 @@ public class UserController {
      * 用户登录
      * @param username
      * @param password
-     * @param sessions
+     * @param session
      * @return
      */
     @RequestMapping(value = "login.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession sessions, HttpServletResponse httpServletResponse) {
+    public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
            // sessions.setAttribute(Const.CURRENT_USER,response.getData());
             //把cookie信息写入到response中，返回给浏览器
-            CookieUtil.writeLoginToken(httpServletResponse,sessions.getId());
+            CookieUtil.writeLoginToken(httpServletResponse,session.getId());
             //写入redis
-            RedisSharedPoolUtil.setEx(sessions.getId(), JsonUtil.obj2String(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+            RedisSharedPoolUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
