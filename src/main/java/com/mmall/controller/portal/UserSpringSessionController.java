@@ -42,6 +42,10 @@ public class UserSpringSessionController {
     @RequestMapping(value = "login.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
+       //全局异常处理
+      //  int i = 0;
+       // int j = 666/i;
+
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
             session.setAttribute(Const.CURRENT_USER,response.getData());

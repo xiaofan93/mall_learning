@@ -38,4 +38,8 @@ public interface IOrderService {
 
     ServerResponse<String> manageSendGoods(Long orderNo);
 
+
+    //关闭hour小时前为付款的订单
+    void closeOrder(int hour);
+
 }

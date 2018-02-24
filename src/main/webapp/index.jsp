@@ -12,7 +12,7 @@ springmvc文件上传
     <input type="submit" value="springmvc文件上传" />
 </form>
 
-<form name="form1" action="/manage/product/rich_text.do" method="post" enctype="multipart/form-data">
+<form name="form2" action="/manage/product/rich_text.do" method="post" enctype="multipart/form-data">
     <input type="file" name="upload_file" />
     <input type="submit" value="富文本文件上传" />
 </form>
