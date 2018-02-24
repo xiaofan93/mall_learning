@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
  * 作为本地缓存
  */
 @Slf4j
+/**
+ * 被Redis缓存取代
+ */
 public class TokenCache {
 
     public static final String TOKEN_PREFIX = "token_";
