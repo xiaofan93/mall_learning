@@ -34,7 +34,7 @@ public class ProductController {
         return iProductService.detail(productId);
     }
 
-    @RequestMapping(value = "/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{productId}", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<ProductDetailVo> detailRESTful(@PathVariable Integer productId) {
         return iProductService.detail(productId);
@@ -59,7 +59,7 @@ public class ProductController {
             return iProductService.list(keyword,categoryId,pageNum,pageSize,orderBy);
     }
 
-    @RequestMapping(value = "/{categoryId}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{categoryId}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<PageInfo> listRESTfulBadCase(@PathVariable(value = "categoryId")Integer categoryId,
                                          @PathVariable(value = "pageNum")Integer pageNum,
@@ -77,7 +77,7 @@ public class ProductController {
         return iProductService.list("",categoryId,pageNum,pageSize,orderBy);
     }
 
-    @RequestMapping(value = "/{keyword}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{keyword}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<PageInfo> listRESTful(@PathVariable(value = "keyword")String keyword,
                                                        @PathVariable(value = "pageNum")Integer pageNum,
@@ -97,7 +97,7 @@ public class ProductController {
 
 
     //正确的RESTful风格   http://www.happymmall.com/product/category/100012/1/10/price_asc
-    @RequestMapping(value = "/category/{categoryId}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.GET)
+    @RequestMapping(value = "/category/{categoryId}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<PageInfo> listRESTful(@PathVariable(value = "categoryId")Integer categoryId,
                                                        @PathVariable(value = "pageNum")Integer pageNum,
@@ -116,7 +116,7 @@ public class ProductController {
     }
 
     //http://www.happymmall.com/product/keyword/手机/1/10/price_asc
-    @RequestMapping(value = "/keyword/{keyword}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.GET)
+    @RequestMapping(value = "/keyword/{keyword}/{pageNum}/{pageSize}/{orderBy}", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<PageInfo> listRESTfulBadCase(@PathVariable(value = "keyword")String keyword,
                                                        @PathVariable(value = "pageNum")Integer pageNum,
